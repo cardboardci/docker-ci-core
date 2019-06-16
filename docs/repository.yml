@@ -1,0 +1,10 @@
+---
+name: Docker RSvg
+slug: docker-rsvg
+project: cardboardci
+namespace: []
+description: Turn SVG files into raster images.
+license:
+  name: MIT
+tags:
+  - docker

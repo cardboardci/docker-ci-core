@@ -1,0 +1,8 @@
+{
+  "name": "docker-rsvg",
+  "tagline": "Turn SVG files into raster images.",
+  "license": {
+    "name": "MIT"
+  },
+  "tags": ["docker", "rsvg", "librsvg", "svg", "icons", "raster images"]
+}

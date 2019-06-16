@@ -1,0 +1,8 @@
+---
+name: github
+provider: github.com
+repository: docker-rsvg
+url: https://github.com/cardboardci/docker-rsvg
+clone:
+  ssh: git@github.com:cardboardci/docker-rsvg.git
+  https: https://github.com/cardboardci/docker-rsvg.git

@@ -1,0 +1,14 @@
+schemaVersion: "2.0.0"
+
+globalEnvVars:
+  - key: "VIRTUAL_ENV"
+    value: "/env"
+  - key: "PATH"
+    value: "/env/bin:$PATH"
+
+commandTests:
+  # check that the python binary is in the correct location
+  - name: "python installation"
+    command: "which"
+    args: ["rsvg-convert"]
+    expectedOutput: ["/usr/bin/rsvg-convert\n"]

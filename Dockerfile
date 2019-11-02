@@ -1,4 +1,4 @@
-FROM ubuntu:disco
+FROM ubuntu:xenial-20191024
 ARG DEBIAN_FRONTEND=noninteractive
 
 COPY provision/pkglist /cardboardci/pkglist

@@ -1,9 +1,16 @@
 FROM ubuntu:xenial-20191024
 ARG DEBIAN_FRONTEND=noninteractive
 
+#
+# Upgrade to latest of ubuntu
+#
+RUN apt-get update && apt-get upgrade -y
+
+#
+# Install dependencies
+#
 COPY provision/pkglist /cardboardci/pkglist
-RUN apt-get update && apt-get upgrade -y \
-    && xargs -a /cardboardci/pkglist apt-get install --no-install-recommends -y \
+RUN xargs -a /cardboardci/pkglist apt-get install --no-install-recommends -y \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 

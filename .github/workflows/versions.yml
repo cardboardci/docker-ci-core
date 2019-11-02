@@ -4,8 +4,8 @@ on:
     branches:
       - master
     paths:
-    - .github/actions/Dockerfile
-    - .github/actions/entrypoint.sh
+    - .github/actions/dependencies/Dockerfile
+    - .github/actions/dependencies/entrypoint.sh
     - .github/workflows/versions.yml
 
 jobs:

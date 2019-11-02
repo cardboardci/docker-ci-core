@@ -1,4 +1,4 @@
-name: Verions
+name: Versions
 on:
   push:
     branches:

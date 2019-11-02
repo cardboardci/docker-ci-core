@@ -2,14 +2,14 @@ name: Build
 on:
   push:
     paths:
-    - provision/*
-    - provision/*/*
-    - provision/*/*/*
-    - rootfs/*
-    - rootfs/*/*
-    - rootfs/*/*/*
-    - Dockerfile
-    - .github/workflows/main.yml
+      - provision/*
+      - provision/*/*
+      - provision/*/*/*
+      - rootfs/*
+      - rootfs/*/*
+      - rootfs/*/*/*
+      - Dockerfile
+      - .github/workflows/main.yml
 
 jobs:
   build:
@@ -20,6 +20,12 @@ jobs:
       - name: Set tag var
         id: vars
         run: echo ::set-output name=docker_tag::$(echo ${GITHUB_REF} | cut -d'/' -f3)-${GITHUB_SHA}
+
+      - name: Lint the image
+        uses: burdzwastaken/hadolint-action@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          HADOLINT_ACTION_DOCKERFILE_FOLDER: .
 
       - name: Build
         run: docker build . --file Dockerfile --tag myapp:${{ steps.vars.outputs.docker_tag }}

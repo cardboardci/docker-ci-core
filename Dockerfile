@@ -1,4 +1,5 @@
 FROM ubuntu:disco
+ARG DEBIAN_FRONTEND=noninteractive
 
 COPY provision/pkglist /cardboardci/pkglist
 RUN apt-get update && apt-get upgrade -y \
@@ -6,13 +7,19 @@ RUN apt-get update && apt-get upgrade -y \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
-WORKDIR /ci
-RUN groupadd -r cardboardci && useradd --no-log-init -r -g cardboardci cardboardci
-USER cardboardci
+COPY provision/user.sh /cardboardci/user.sh
+RUN bash /cardboardci/user.sh ; sync ; rm -f /cardboardci/user.sh
 
-##
-## Image Metadata
-##
+#
+# Set the image properties
+#
+USER cardboardci
+WORKDIR /cardboardci/workspace
+ENTRYPOINT [ "/bin/bash" ]
+
+#
+# Image Metadata
+#
 ARG build_date
 ARG version
 ARG vcs_ref
@@ -30,10 +37,10 @@ LABEL maintainer = "CardboardCI" \
     org.label-schema.summary = "Base image for CI" \
     org.label-schema.description = "Base image for CI." \
     \
-    org.label-schema.url = "https://gitlab.com/cardboardci/images/ci-core" \
-    org.label-schema.changelog-url = "https://gitlab.com/cardboardci/images/ci-core/releases" \
-    org.label-schema.authoritative-source-url = "https://cloud.docker.com/u/cardboardci/repository/docker/cardboardci/ci-core" \
+    org.label-schema.url = "https://github.com/cardboardci/docker-ci-core" \
+    org.label-schema.changelog-url = "https://github.com/cardboardci/docker-ci-core/releases" \
+    org.label-schema.authoritative-source-url = "https://hub.docker.com/r/cardboardci/ci-core" \
     org.label-schema.distribution-scope = "public" \
     org.label-schema.vcs-type = "git" \
-    org.label-schema.vcs-url = "https://gitlab.com/cardboardci/images/ci-core" \
+    org.label-schema.vcs-url = "https://github.com/cardboardci/docker-ci-core" \
     org.label-schema.vcs-ref = "${vcs_ref}" \

@@ -1,0 +1,17 @@
+name: DockerHub
+on:
+  push:
+    branches:
+      - master
+    paths:
+    - .github/actions/Dockerfile
+    - .github/actions/entrypoint.sh
+    - .github/workflows/versions.yml
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - name: Upgrade the dependencies
+        uses: ./.github/actions/dependencies

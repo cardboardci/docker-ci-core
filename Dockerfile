@@ -1,8 +1,16 @@
-FROM ubuntu:disco
+FROM ubuntu:focal-20191030
 ARG DEBIAN_FRONTEND=noninteractive
 
+#
+# Upgrade to latest of ubuntu
+#
+RUN apt-get update && apt-get upgrade -y && rm -rf /var/lib/apt/lists/*
+
+#
+# Install dependencies
+#
 COPY provision/pkglist /cardboardci/pkglist
-RUN apt-get update && apt-get upgrade -y \
+RUN apt-get update \
     && xargs -a /cardboardci/pkglist apt-get install --no-install-recommends -y \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*

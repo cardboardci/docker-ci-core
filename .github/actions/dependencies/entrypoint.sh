@@ -29,7 +29,7 @@ done <provision/pkglist.bak
 cat provision/pkglist
 
 ## Commit changes
-branch_name=gh-actions/update-dependencies
+branch_name="gh-actions/update-dependencies-$(shuf -i 2000-65000 -n 1)"
 git checkout -b "${branch_name}"
 git add provision/pkglist
 git commit -m 'Updating the dependencies' --allow-empty

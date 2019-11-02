@@ -1,6 +1,11 @@
 #!/bin/bash
 set -e
 
+if [[ -z "$GITHUB_TOKEN" ]]; then
+	echo "Set the GITHUB_TOKEN env variable."
+	exit 1
+fi
+
 # Configure git
 git config --global user.name "${GITHUB_ACTOR}"
 git config --global user.email "${GITHUB_ACTOR}@users.noreply.github.com"
@@ -22,8 +27,25 @@ done <provision/pkglist.bak
 
 ##
 cat provision/pkglist
-git checkout -b gh-actions/update-dependencies
+
+## Commit changes
+branch_name=gh-actions/update-dependencies
+git checkout -b "${branch_name}"
 git add provision/pkglist
 git commit -m 'Updating the dependencies' --allow-empty
+
+## Add authenticated remote
 git remote add github "https://${GITHUB_ACTOR}:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
 git push -u github HEAD
+
+## Create a pull request
+URI=https://api.github.com
+REPO_FULLNAME=$(jq -r ".repository.full_name" "$GITHUB_EVENT_PATH")
+PULLS_URI="${URI}/repos/$REPO_FULLNAME/pulls"
+API_HEADER="Accept: application/vnd.github.shadow-cat-preview"
+AUTH_HEADER="Authorization: token $GITHUB_TOKEN"
+
+title="Updated the dependencies of the docker image"
+resp=$(curl --data "{\"title\":\"$title\", \"head\": \"$branch_name\", \"draft\": true, \"base\": \"$DEFAULT_BRANCH\"}" -X POST -s -H "${AUTH_HEADER}" -H "${API_HEADER}" ${PULLS_URI})
+
+echo "$resp"

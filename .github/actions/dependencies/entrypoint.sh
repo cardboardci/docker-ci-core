@@ -39,14 +39,5 @@ git remote add github "https://${GITHUB_ACTOR}:${GITHUB_TOKEN}@github.com/${GITH
 git push -u github HEAD
 
 ## Create a pull request
-URI=https://api.github.com
-REPO_FULLNAME=$(jq -r ".repository.full_name" "$GITHUB_EVENT_PATH")
-DEFAULT_BRANCH=$(jq -r ".repository.default_branch" "$GITHUB_EVENT_PATH")
-PULLS_URI="${URI}/repos/$REPO_FULLNAME/pulls"
-API_HEADER="Accept: application/vnd.github.shadow-cat-preview"
-AUTH_HEADER="Authorization: token $GITHUB_TOKEN"
-
 title="Updated the dependencies of the docker image"
-resp=$(curl --data "{\"title\":\"$title\", \"head\": \"$branch_name\", \"draft\": true, \"base\": \"$DEFAULT_BRANCH\"}" -X POST -s -H "${AUTH_HEADER}" -H "${API_HEADER}" ${PULLS_URI})
-
-echo "$resp"
+hub pull-request -m "${title}"

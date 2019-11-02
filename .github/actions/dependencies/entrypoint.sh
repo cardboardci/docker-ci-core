@@ -11,7 +11,7 @@ apt-get update
 mv provision/pkglist provision/pkglist.bak
 touch provision/pkglist
 while read p; do
-    input=(${p//:/ })
+    input=(${p//=/ })
     version=$(apt-cache show ${input} | grep 'Version: ' | awk -F"[ ',]+" '/Version:/{print $2}')
     echo "${input}=${version}" >> provision/pkglist
 done <provision/pkglist.bak

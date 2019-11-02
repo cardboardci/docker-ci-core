@@ -15,6 +15,7 @@ git config --global http.sslverify false
 apt-get update
 
 mv provision/pkglist provision/pkglist.bak
+cat provision/pkglist.bak
 touch provision/pkglist
 while read line; do
     echo "Working with ${line}"

@@ -25,6 +25,5 @@ cat provision/pkglist
 git checkout -b gh-actions/update-dependencies
 git add provision/pkglist
 git commit -m 'Updating the dependencies' --allow-empty
-git push -u origin HEAD
-# git remote add github "https://${GITHUB_ACTOR}:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
-# git push -u github HEAD
+git remote add github "https://${GITHUB_ACTOR}:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
+git push -u github HEAD

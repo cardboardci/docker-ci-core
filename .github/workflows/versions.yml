@@ -15,3 +15,5 @@ jobs:
       - uses: actions/checkout@v1
       - name: Upgrade the dependencies
         uses: ./.github/actions/dependencies
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

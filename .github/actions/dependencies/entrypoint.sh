@@ -14,8 +14,11 @@ git config --global http.sslverify false
 # Update package status
 apt-get update
 
+# Emit the current versions
+echo "Current versions"
+cat provision/pkglist
+
 mv provision/pkglist provision/pkglist.bak
-cat provision/pkglist.bak
 touch provision/pkglist
 while read line; do
     echo "Working with ${line}"

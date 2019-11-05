@@ -18,7 +18,7 @@ jobs:
         with:
           args: "bash tools/upgrade.bash"
       - name: Commit the dependency changes
-        uses: cardboardci/auto-commit-github-action@master
+        uses: cardboardci/github-actions/auto-commit@master
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           BRANCH: '/pkglist'

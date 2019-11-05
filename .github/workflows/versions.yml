@@ -1,19 +1,26 @@
 name: Versions
+# on:
+#   schedule:
+#   - cron: "0 0 * * *"
+
 on:
   push:
-    branches:
-      - master
     paths:
-    - .github/actions/dependencies/Dockerfile
-    - .github/actions/dependencies/entrypoint.sh
-    - .github/workflows/versions.yml
+      - .github/workflows/versions.yml
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
-      - name: Upgrade the dependencies
-        uses: ./.github/actions/dependencies
+      - name: Review and upgrade the dependencies
+        uses: docker://ubuntu:latest
+        with:
+          args: "bash tools/upgrade.bash"
+      - name: Commit the dependency changes
+        uses: cardboardci/auto-commit-github-action@master
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          BRANCH: '/pkglist'
+          MESSAGE: 'Upgrade packages to latest ubuntu dependencies'
+          PULL_REQUEST_TITLE: 'Bump image dependencies to latest'

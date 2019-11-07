@@ -14,10 +14,10 @@ while read line; do
     echo "Working with ${line}"
     input=(${line//=/ })
     echo "Determining version for ${input}"
-    version=$(apt-cache show ${input} | grep 'Version: ' | awk -F"[ ',]+" '/Version:/{print $2}')
+    version=$(apt-cache policy ${input} | grep 'Candidate: ' | awk -F"[ ',]+" '/Candidate:/{print $3}')
     echo "Found version as ${version}"
     echo "${input}=${version}" >> provision/pkglist
 done <provision/pkglist.bak
 
-##
+#
 cat provision/pkglist

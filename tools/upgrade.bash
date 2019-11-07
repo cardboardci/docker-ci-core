@@ -20,4 +20,5 @@ while read line; do
 done <provision/pkglist.bak
 
 #
+rm provision/pkglist.bak
 cat provision/pkglist

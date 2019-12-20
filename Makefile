@@ -18,18 +18,17 @@ build: ## Build an image from a Dockerfile
 		--tag $(DOCKER_LABEL):$(DOCKER_TAG)
 
 .PHONY: build
+list: ## List one or more images stored in the image archive
+	@ls $(DIR_BIN)
+
 save: ## Save one or more images to a tar archive
-	mkdir -p $(DIR_BIN)
-	docker save $(DOCKER_LABEL):$(DOCKER_TAG) | gzip > $(DIR_BIN)/$(DOCKER_FILE)
+	@mkdir -p $(DIR_BIN)
+	@docker save $(DOCKER_LABEL):$(DOCKER_TAG) | gzip > $(DIR_BIN)/$(DOCKER_FILE)
 
 ##@ Clean
-.PHONY: cache
-cache: ## clean something
-	@echo "Cleaning..."
-
 .PHONY: prune
 prune: ## Remove unused data
-	docker system prune
+	@docker system prune
 
 .PHONY: help
 help:

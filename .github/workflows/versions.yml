@@ -2,7 +2,8 @@ name: Versions
 
 on:
   schedule:
-  - cron: "0 0 * * *"
+  - cron: "0 8 * * 3"
+
   push:
     paths:
       - .github/workflows/versions.yml

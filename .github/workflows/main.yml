@@ -50,6 +50,7 @@ jobs:
           phonito-token: ${{ secrets.PHONITO_TOKEN }}
 
       - name: Deploy to DockerHub
+        if: github.ref == 'refs/heads/master'
         run: |
-          echo ${{ secrets.DOCKERHUB_PASSWORD }} | docker login -u ${{ secrets.DOCKERHUB_USERNAME }}
+          echo ${{ secrets.DOCKERHUB_PASSWORD }} | docker login -u ${{ secrets.DOCKERHUB_USERNAME }} --password-stdin
           docker push ${{ steps.vars.outputs.docker_image }}

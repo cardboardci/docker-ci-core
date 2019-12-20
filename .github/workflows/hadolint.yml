@@ -13,4 +13,4 @@ jobs:
       - name: Hadolint
         uses: docker://docker.io/cardboardci/hadolint:latest
         with:
-          args: "hadolint ."
+          args: "hadolint Dockerfile"

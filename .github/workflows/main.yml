@@ -17,11 +17,18 @@ jobs:
     steps:
       - uses: actions/checkout@v1
 
+      - name: Set versions
+        id: version
+        run: |
+          echo ::set-output name=docker_version::0.0.1
+
       - name: Set tag var
         id: vars
         run: |
-          echo ::set-output name=docker_tag::$(echo ${GITHUB_REF} | cut -d'/' -f3)-${GITHUB_SHA}
-          echo ::set-output name=docker_hostname::docker.io
+          echo ::set-output name=docker_image::docker.io/cardboardci/ci-core
+          echo ::set-output name=docker_tag::${{ steps.version.outputs.docker_version }}
+          echo ::set-output name=docker_tag_date::${{ steps.version.outputs.docker_version }}-$(date -u +'%Y-%m-%dT%H:%M:%SZ')
+          echo ::set-output name=docker_tag_commit::$(echo ${GITHUB_REF} | cut -d'/' -f3)-${GITHUB_SHA}
 
       - name: Lint the image
         uses: burdzwastaken/hadolint-action@master
@@ -29,17 +36,16 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           HADOLINT_ACTION_DOCKERFILE_FOLDER: .
 
-      # [HOSTNAME]/[PROJECT-ID]/[IMAGE]
       - name: Build
         run: |
           docker build . \
             --file Dockerfile \
-            --tag docker.io/cardboardci/ci-core:${{ steps.vars.outputs.docker_tag }}    \
-            --tag docker.io/cardboardci/ci-core:${{ steps.vars.outputs.docker_tag }}-1  \
-            --tag docker.io/cardboardci/ci-core:${{ steps.vars.outputs.docker_tag }}-2
+            --tag ${{ steps.vars.outputs.docker_image }}:${{ steps.vars.outputs.docker_tag }} \
+            --tag ${{ steps.vars.outputs.docker_image }}:${{ steps.vars.outputs.docker_tag_commit }} \
+            --tag ${{ steps.vars.outputs.docker_image }}:${{ steps.vars.outputs.docker_tag_date }}
 
       - name: Scan with Phonito Security
         uses: phonito/phonito-scanner-action@master
         with:
-          image: docker.io/cardboardci/ci-core:${{ steps.vars.outputs.docker_tag }}
+          image: ${{ steps.vars.outputs.docker_image }}:${{ steps.vars.outputs.docker_tag_commit }}
           phonito-token: ${{ secrets.PHONITO_TOKEN }}

@@ -19,7 +19,9 @@ jobs:
 
       - name: Set tag var
         id: vars
-        run: echo ::set-output name=docker_tag::$(echo ${GITHUB_REF} | cut -d'/' -f3)-${GITHUB_SHA}
+        run: |
+          echo ::set-output name=docker_tag::$(echo ${GITHUB_REF} | cut -d'/' -f3)-${GITHUB_SHA}
+          echo ::set-output name=docker_hostname::docker.io
 
       - name: Lint the image
         uses: burdzwastaken/hadolint-action@master
@@ -27,11 +29,17 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           HADOLINT_ACTION_DOCKERFILE_FOLDER: .
 
+      # [HOSTNAME]/[PROJECT-ID]/[IMAGE]
       - name: Build
-        run: docker build . --file Dockerfile --tag myapp:${{ steps.vars.outputs.docker_tag }}
+        run: |
+          docker build . \
+            --file Dockerfile \
+            --tag docker.io/cardboardci/ci-core:${{ steps.vars.outputs.docker_tag }}
+            --tag docker.io/cardboardci/ci-core:${{ steps.vars.outputs.docker_tag }}-1
+            --tag docker.io/cardboardci/ci-core:${{ steps.vars.outputs.docker_tag }}-2
 
       - name: Scan with Phonito Security
         uses: phonito/phonito-scanner-action@master
         with:
-          image: myapp:${{ steps.vars.outputs.docker_tag }}
+          image: docker.io/cardboardci/ci-core:${{ steps.vars.outputs.docker_tag }}
           phonito-token: ${{ secrets.PHONITO_TOKEN }}

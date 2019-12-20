@@ -28,17 +28,14 @@ ENTRYPOINT [ "/bin/bash" ]
 #
 # Image Metadata
 #
-ARG build_date
-ARG version
-ARG vcs_ref
+ARG version=1.0.0
 LABEL maintainer = "CardboardCI" \
     \
     org.label-schema.schema-version = "1.0" \
     \
     org.label-schema.name = "ci-core" \
     org.label-schema.version = "${version}" \
-    org.label-schema.build-date = "${build_date}" \
-    org.label-schema.release= = "CardboardCI version:${version} build-date:${build_date}" \
+    org.label-schema.release= = "CardboardCI version:${version}" \
     org.label-schema.vendor = "cardboardci" \
     org.label-schema.architecture = "amd64" \
     \
@@ -50,5 +47,4 @@ LABEL maintainer = "CardboardCI" \
     org.label-schema.authoritative-source-url = "https://hub.docker.com/r/cardboardci/ci-core" \
     org.label-schema.distribution-scope = "public" \
     org.label-schema.vcs-type = "git" \
-    org.label-schema.vcs-url = "https://github.com/cardboardci/docker-ci-core" \
-    org.label-schema.vcs-ref = "${vcs_ref}" \
+    org.label-schema.vcs-url = "https://github.com/cardboardci/docker-ci-core"

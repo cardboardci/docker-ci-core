@@ -44,6 +44,11 @@ jobs:
             --tag ${{ steps.vars.outputs.docker_image }}:${{ steps.vars.outputs.docker_tag_commit }} \
             --tag ${{ steps.vars.outputs.docker_image }}:${{ steps.vars.outputs.docker_tag_date }}
 
+	    - name: Tests
+        uses: docker://gcr.io/gcp-runtimes/container-structure-test
+        with:
+          args: "test --config tests/tests.yaml --image ${{ steps.vars.outputs.docker_image }}:${{ steps.vars.outputs.docker_tag }}"
+
       - name: Scan with Phonito Security
         uses: phonito/phonito-scanner-action@master
         with:

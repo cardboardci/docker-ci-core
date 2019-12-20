@@ -34,8 +34,8 @@ jobs:
         run: |
           docker build . \
             --file Dockerfile \
-            --tag docker.io/cardboardci/ci-core:${{ steps.vars.outputs.docker_tag }}
-            --tag docker.io/cardboardci/ci-core:${{ steps.vars.outputs.docker_tag }}-1
+            --tag docker.io/cardboardci/ci-core:${{ steps.vars.outputs.docker_tag }}    \
+            --tag docker.io/cardboardci/ci-core:${{ steps.vars.outputs.docker_tag }}-1  \
             --tag docker.io/cardboardci/ci-core:${{ steps.vars.outputs.docker_tag }}-2
 
       - name: Scan with Phonito Security

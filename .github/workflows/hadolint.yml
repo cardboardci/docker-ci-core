@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
-      - name: Tests
+      - name: Hadolint
         uses: docker://docker.io/cardboardci/hadolint:latest
         with:
-          args: "."
+          args: "hadolint ."

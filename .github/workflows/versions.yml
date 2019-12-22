@@ -1,4 +1,4 @@
-name: Versions
+name: Check for apt upgrades
 
 on:
   schedule:
@@ -7,15 +7,16 @@ on:
   push:
     paths:
       - .github/workflows/versions.yml
+      - provision/pkglist
       - tools/upgrade.bash
 
 jobs:
-  build:
+  apt-get:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
       - name: Review and upgrade the dependencies
-        uses: docker://ubuntu:focal
+        uses: docker://cardboardci/ci-core:latest
         with:
           args: "bash tools/upgrade.bash"
       - name: Commit the dependency changes
@@ -23,5 +24,5 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           BRANCH: '/pkglist'
-          MESSAGE: 'Upgrade packages to latest ubuntu dependencies'
+          MESSAGE: 'Upgrade packages to latest apt-get dependencies'
           PULL_REQUEST_TITLE: 'Bump image dependencies to latest'

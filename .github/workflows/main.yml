@@ -28,7 +28,6 @@ jobs:
           echo ::set-output name=docker_image::docker.io/cardboardci/ci-core
           echo ::set-output name=docker_tag::${{ steps.version.outputs.docker_version }}
           echo ::set-output name=docker_tag_date::${{ steps.version.outputs.docker_version }}-$(date -u +'%Y%m%d')
-          echo ::set-output name=docker_tag_commit::$(echo ${GITHUB_REF} | cut -d'/' -f3)-${GITHUB_SHA}
 
       - name: Build
         run: |
@@ -36,7 +35,7 @@ jobs:
             --file Dockerfile \
             --tag ${{ steps.vars.outputs.docker_image }}:${{ steps.vars.outputs.docker_tag }} \
             --tag ${{ steps.vars.outputs.docker_image }}:${{ steps.vars.outputs.docker_tag_commit }} \
-            --tag ${{ steps.vars.outputs.docker_image }}:${{ steps.vars.outputs.docker_tag_date }}
+            --tag ${{ steps.vars.outputs.docker_image }}:latest
 
       - name: Tests
         uses: docker://gcr.io/gcp-runtimes/container-structure-test

@@ -34,7 +34,7 @@ jobs:
           docker build . \
             --file Dockerfile \
             --tag ${{ steps.vars.outputs.docker_image }}:${{ steps.vars.outputs.docker_tag }} \
-            --tag ${{ steps.vars.outputs.docker_image }}:${{ steps.vars.outputs.docker_tag_commit }} \
+            --tag ${{ steps.vars.outputs.docker_image }}:${{ steps.vars.outputs.docker_tag_date }} \
             --tag ${{ steps.vars.outputs.docker_image }}:latest
 
       - name: Tests
@@ -45,7 +45,7 @@ jobs:
       - name: Scan with Phonito Security
         uses: phonito/phonito-scanner-action@master
         with:
-          image: ${{ steps.vars.outputs.docker_image }}:${{ steps.vars.outputs.docker_tag_commit }}
+          image: ${{ steps.vars.outputs.docker_image }}:${{ steps.vars.outputs.docker_tag_date }}
           phonito-token: ${{ secrets.PHONITO_TOKEN }}
 
       - name: Deploy to DockerHub

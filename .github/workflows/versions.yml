@@ -1,4 +1,4 @@
-name: Check for apt upgrades
+name: Check for dependencies
 
 on:
   schedule:

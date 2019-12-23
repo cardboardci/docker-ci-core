@@ -16,7 +16,7 @@ jobs:
     steps:
       - uses: actions/checkout@v1
       - name: Review and upgrade the dependencies
-        uses: docker://cardboardci/ci-core:latest
+        uses: docker://cardboardci/ci-core:privileged
         with:
           args: "tools/upgrade.bash"
       - name: Commit the dependency changes

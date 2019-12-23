@@ -2,7 +2,7 @@
 set -e
 
 # Update package status
-sudo apt-get update
+apt-get update
 
 # Emit the current versions
 echo "Current versions"

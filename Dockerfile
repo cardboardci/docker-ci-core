@@ -1,5 +1,6 @@
 FROM ubuntu:focal-20191129
 ARG DEBIAN_FRONTEND=noninteractive
+ARG USER
 
 #
 # Upgrade to latest of ubuntu
@@ -21,7 +22,7 @@ RUN bash /cardboardci/user.sh ; sync ; rm -f /cardboardci/user.sh
 #
 # Set the image properties
 #
-USER cardboardci
+USER ${USER}
 WORKDIR /cardboardci/workspace
 ENTRYPOINT [ "/bin/bash" ]
 

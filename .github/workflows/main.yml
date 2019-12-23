@@ -33,9 +33,19 @@ jobs:
         run: |
           docker build . \
             --file Dockerfile \
+            --build-arg USER=cardboardci \
             --tag ${{ steps.vars.outputs.docker_image }}:${{ steps.vars.outputs.docker_tag }} \
             --tag ${{ steps.vars.outputs.docker_image }}:${{ steps.vars.outputs.docker_tag_date }} \
             --tag ${{ steps.vars.outputs.docker_image }}:latest
+
+      - name: Build Privileged
+        run: |
+          docker build . \
+            --file Dockerfile \
+            --build-arg USER=root \
+            --tag ${{ steps.vars.outputs.docker_image }}:${{ steps.vars.outputs.docker_tag }}-privileged \
+            --tag ${{ steps.vars.outputs.docker_image }}:${{ steps.vars.outputs.docker_tag_date }}-privileged \
+            --tag ${{ steps.vars.outputs.docker_image }}:privileged
 
       - name: Tests
         uses: docker://gcr.io/gcp-runtimes/container-structure-test

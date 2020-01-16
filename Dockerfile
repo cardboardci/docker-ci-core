@@ -1,4 +1,4 @@
-FROM ubuntu:focal-20191129
+FROM ubuntu:focal-20200115
 ARG DEBIAN_FRONTEND=noninteractive
 ARG USER
 

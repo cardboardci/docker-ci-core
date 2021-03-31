@@ -1,0 +1,15 @@
+slug: docker-ci-core
+description: A base ubuntu image for CI images to work off.
+project: cardboardci
+namespace: docker
+status: archived
+icon: icon.svg
+license:
+  type: MIT
+  content: Jonathan Beverly <jrbeverly>
+  year: 2019
+topics: |-
+  [
+    "dockerfile",
+    "baseimage"
+  ]
